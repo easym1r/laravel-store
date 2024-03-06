@@ -1,0 +1,83 @@
+version: '3.2'
+
+services:
+  nginx: # Сервер
+    build:
+      context: ./.docker/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=mysql"
+      - "XDG_CONFIG_HOME=/app"
+    ports:
+      - "80:80"
+    links:
+      - php-fpm
+      - node
+
+  php-fpm: # Обработчик PHP
+    build:
+      context: ./.docker/php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=mysql"
+      - "REDIS_PORT=6379"
+      - "REDIS_HOST=redis"
+    links:
+      - mysql
+      - node
+
+  php-cli: # Оболочка командной строки для работы с PHP (artisan и тд)
+    build:
+      context: ./
+      dockerfile: .docker/php-cli/Dockerfile
+    volumes:
+      - ./:/var/www
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=mysql"
+      - "COMPOSER_MEMORY_LIMIT=-1"
+    links:
+      - mysql
+    tty: true
+
+  mysql: # База Данных
+    image: mysql:8.0
+    volumes:
+      - database:/var/lib/mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_USER=user"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_DATABASE=laravel-store"
+    ports:
+      - "33061:3306"
+
+  phpmyadmin: # Интерфейс для Базы Данных
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=user
+      - PMA_PASSWORD=secret
+      - UPLOAD_LIMIT=64M
+    restart: always
+    ports:
+      - 81:80
+
+  node: # Ядро Node для работы с Vite Laravel (динамической сборки проекта в части фронтa, CSS стили и тд)
+    image: node:18-alpine
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www
+    tty: true
+
+volumes:
+  database:
