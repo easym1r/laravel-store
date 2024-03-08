@@ -34,7 +34,7 @@
         <div class="row align-items-center justify-content-center">
             <div class="col-lg-12">
                 <nav class="navbar navbar-expand-lg navbar-light">
-                    <a class="navbar-brand" href="/"> <img src="/img/logo.png" alt="logo"> </a>
+                    <a class="navbar-brand" href="{{ route('Home') }}"> <img src="/img/logo.png" alt="logo"> </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -44,10 +44,10 @@
                     <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="/">Главная</a>
+                                <a class="nav-link" href="{{ route('Home') }}">Главная</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/products">Наша продукция</a>
+                                <a class="nav-link" href="{{ route('Products') }}">Наша продукция</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" id="navbarDropdown_3"
@@ -55,15 +55,14 @@
                                     Оформление заказа
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                    <a class="dropdown-item" href="/login">Войти в личный кабинет</a>
-                                    <a class="dropdown-item" href="/cart">Ваша корзина</a>
+                                    <a class="dropdown-item" href="/profile">Личный кабинет</a>
+                                    <a class="dropdown-item" href="/cart">Корзина</a>
                                     <a class="dropdown-item" href="/checkout">Оформление заказа</a>
-                                    <a class="dropdown-item" href="/confirmation">Подтверждение заказа</a>
                                 </div>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="/contact">Контакты</a>
+                                <a class="nav-link" href="{{ route('Contacts') }}">Контакты</a>
                             </li>
                         </ul>
                     </div>
