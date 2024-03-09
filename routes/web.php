@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +18,18 @@ use App\Http\Controllers\ProductController;
 |
 */
 
+// Custom Routes
 Route::get('/', [HomeController::class, 'index'])->name('Home');
 Route::get('/contact', [ContactController::class, 'showContactInfo'])->name('Contacts');
 Route::get('/products', [ProductController::class, 'showProductList'])->name('Products');
 Route::get('/product/{product_id}', [ProductController::class, 'showProductDetailInfo']);
+Route::get('/cart', [CartController::class, 'showCart'])->middleware(['auth']);
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('addToCart');
+Route::get('/auth', function () {
+   return view('auth');
+})->name('auth');
 
+// Breeze Routes
 Route::get('/welcome', function () { // TODO
     return view('welcome');
 });

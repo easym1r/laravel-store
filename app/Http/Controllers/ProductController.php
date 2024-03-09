@@ -3,18 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    public function showProductList()
+    public function showProductList(): View
     {
         return view('products', ['products' => Product::all()]);
     }
 
-    public function showProductDetailInfo($product_id)
+    public function showProductDetailInfo($product_id): View
     {
-        $productInfo = Product::getProductDetailInfo($product_id);
-
-        return view('product-detail', ['product' => $productInfo]);
+        return view('product-detail', ['product' => Product::getProductDetailInfo($product_id)]);
     }
 }

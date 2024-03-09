@@ -5836,7 +5836,7 @@ input:focus {
 /* line 1943, /Applications/MAMP/htdocs/old/palash/cl/shop_html/sass/_product.scss */
 .login_part .login_part_text, .login_part .login_part_form {
   padding: 80px 70px;
-  height: 600px;
+  /*height: 600px;*/
   display: table;
 }
 

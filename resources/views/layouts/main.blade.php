@@ -26,7 +26,12 @@
     <link rel="stylesheet" href="/css/slick.css">
     <!-- style CSS -->
     <link rel="stylesheet" href="/css/style.css">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
+
+<!-- jquery plugins here-->
+<script src="/js/jquery-1.12.1.min.js"></script>
 
 <!--::header part start::-->
 <header class="main_menu home_menu">
@@ -138,8 +143,6 @@
 </footer>
 <!--::footer_part end::-->
 
-<!-- jquery plugins here-->
-<script src="/js/jquery-1.12.1.min.js"></script>
 <!-- popper js -->
 <script src="/js/popper.min.js"></script>
 <!-- bootstrap js -->

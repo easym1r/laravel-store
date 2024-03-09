@@ -37,17 +37,17 @@
                         <p>{{ $product->description }}</p>
                         <div class="card_area">
                             <div class="product_count_area">
-                                <p>Quantity</p>
+                                <p>Количество</p>
                                 <div class="product_count d-inline-block">
                                     <span class="product_count_item inumber-decrement"> <i class="ti-minus"></i></span>
-                                    <input class="product_count_item input-number" type="text" value="1" min="0"
+                                    <input class="product_count_item input-number" type="text" value="1" min="1"
                                            max="10">
                                     <span class="product_count_item number-increment"> <i class="ti-plus"></i></span>
                                 </div>
                                 <p>{{ $product->price }}</p>
                             </div>
                             <div class="add_to_cart">
-                                <a href="#" class="btn_3">Добавить товар в корзину</a>
+                                <a class="btn_3 add-to-cart-btn" style="cursor: pointer">Добавить товар в корзину</a>
                             </div>
                         </div>
                     </div>
@@ -56,5 +56,42 @@
         </div>
     </div>
     <!--================End Single Product Area =================-->
+
+    <!-- JavaScript-код для обработки нажатия кнопки "Добавить товар в корзину" и отправки AJAX-запроса -->
+    <script>
+        $(document).ready(function () {
+            $('.add-to-cart-btn').click(function (event) {
+                event.preventDefault()
+                addToCart()
+            })
+        })
+
+        function addToCart() {
+            let id = {{ $product->id }};
+            var quantity = $('.input-number').val();
+
+            $.ajax({
+                url: "{{ route('addToCart') }}",
+                type: "POST",
+                data: {
+                    id: id,
+                    quantity: quantity,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: (data) => {
+                    console.log(data)
+                },
+                error: (data) => {
+                    if (data.status === 401) {
+                        window.location.href = '/auth';
+                    } else {
+                        console.log(data);
+                    }
+                }
+            });
+        }
+    </script>
 
 @endsection
