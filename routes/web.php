@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +20,15 @@ use App\Http\Controllers\CartController;
 */
 
 // Custom Routes
-Route::get('/', [HomeController::class, 'index'])->name('Home');
-Route::get('/contact', [ContactController::class, 'showContactInfo'])->name('Contacts');
-Route::get('/products', [ProductController::class, 'showProductList'])->name('Products');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/contact', [ContactController::class, 'showContactInfo'])->name('contacts');
+Route::get('/products', [ProductController::class, 'showProductList'])->name('products');
 Route::get('/product/{product_id}', [ProductController::class, 'showProductDetailInfo']);
-Route::get('/cart', [CartController::class, 'showCart'])->middleware(['auth']);
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('addToCart');
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart')->middleware(['auth']);
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('addToCart')->middleware(['auth']);
+Route::post('/cart/update', [CartController::class, 'cartUpdate'])->name('cartUpdate')->middleware(['auth']);
+Route::get('/order', [OrderController::class, 'showOrder'])->name('order');
+
 Route::get('/auth', function () {
    return view('auth');
 })->name('auth');

@@ -32,7 +32,28 @@ class CartController extends Controller
             if ($addedProduct) {
                 return response()->json(['data' => 'Товар успешно добавлен в корзину']);
             } else {
-                return response()->json(['data' => 'Произошла ошибка при добавление товара в корзину. Обратитесь к администратору']);
+                return response()->json(['data' => 'Произошла ошибка при добавление товара в корзину. Обратитесь к администратору'], 422);
+            }
+        } else {
+            // Обработка случая, когда пользователь не авторизован
+            return response()->json(['data' => 'Пользователь не авторизован'], 401);
+        }
+    }
+
+    public function cartUpdate(Request $request)
+    {
+        if (Auth::check()) {
+            $productCartPosition = $request->productCartIdPosition;
+            $productQuantity = $request->productQuantity;
+
+            $cart = new Cart();
+
+            $updatedProduct = $cart->productQuantityUpdate($productCartPosition, $productQuantity);
+
+            if ($updatedProduct) {
+                return response()->json(['data' => 'Корзина успешно обновлена']);
+            } else {
+                return response()->json(['data' => 'Произошла ошибка при добавление товара в корзину. Обратитесь к администратору'], 422);
             }
         } else {
             // Обработка случая, когда пользователь не авторизован

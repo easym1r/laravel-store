@@ -58,7 +58,7 @@
     <!--================End Single Product Area =================-->
 
     <!-- JavaScript-код для обработки нажатия кнопки "Добавить товар в корзину" и отправки AJAX-запроса -->
-    <script>
+    <script> // TODO временно скрипт оформлен здесь! FIXME Нужно унести в отдельный JS-файл
         $(document).ready(function () {
             $('.add-to-cart-btn').click(function (event) {
                 event.preventDefault()
@@ -81,11 +81,13 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: (data) => {
-                    console.log(data)
+                    console.log(data);
+                    window.location.href = '{{ route('cart') }}';
+                    // FIXME добавить обработку кастомной ошибки от контроллера корзины
                 },
                 error: (data) => {
                     if (data.status === 401) {
-                        window.location.href = '/auth';
+                        window.location.href = '{{ route('auth') }}';
                     } else {
                         console.log(data);
                     }

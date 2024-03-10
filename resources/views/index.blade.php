@@ -13,7 +13,7 @@
                         <div class="banner_text_iner">
                             <h1>Подушки лучшего качества</h1>
                             <p>Способны подарить вам качество лучшей жизни!</p>
-                            <a href="/products" class="btn_1">Выбрать товар</a>
+                            <a href="{{ route('products') }}" class="btn_1">Выбрать товар</a>
                         </div>
                     </div>
                 </div>
@@ -41,8 +41,8 @@
                             <div class="col-lg-5 col-sm-6">
                                 <div class="single_product_content">
                                     <h5>От 999 рублей</h5>
-                                    <h2><a href="/products">Современные чехлы для подушки с принтом из пены с памятью</a></h2>
-                                    <a href="/products" class="btn_3">Посмотреть продукцию сейчас</a>
+                                    <h2><a href="{{ route('products') }}">Современные чехлы для подушки с принтом из пены с памятью</a></h2>
+                                    <a href="{{ route('products') }}" class="btn_3">Посмотреть продукцию сейчас</a>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                             <div class="single_product_item_thumb">
                                 <img src="/img/product/{{ $product->image_file_name }}" alt="#" class="img-fluid">
                             </div>
-                            <h3><a href="/product/{{ $product->id }}">{{ $product->name }}</a></h3>
+                            <h3><a href="product/{{ $product->id }}">{{ $product->name }}</a></h3>
                             <p>{{ $product->price }} ₽</p>
                         </div>
                     </div>

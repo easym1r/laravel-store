@@ -19,7 +19,7 @@
                     <div class="login_part_text text-center">
                         <div class="login_part_text_iner">
                             <h2>У вас нет аккаунта?</h2>
-                            <a href="/register" class="btn_3">Создать аккаунт</a>
+                            <a href="{{ route('register') }}" class="btn_3">Создать аккаунт</a>
                         </div>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                     <div class="login_part_text text-center">
                         <div class="login_part_text_iner">
                             <h2>У вас уже есть аккаунт?</h2>
-                            <a href="/login" class="btn_3">Войти</a>
+                            <a href="{{ route('login') }}" class="btn_3">Войти</a>
                         </div>
                     </div>
                 </div>

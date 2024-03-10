@@ -47,9 +47,12 @@ class Cart extends Model
             $productInfo = Product::find($product->product_id);
 
             $cartDetailInfo[] = [
+                'id' => $product->product_id,
                 'name' => $productInfo->name,
                 'price' => $productInfo->price,
                 'quantity' => $product->quantity,
+                'image_file_name' => $productInfo->image_file_name,
+                'position_in_cart' => $product->id,
                 'total_price' => $productInfo->price * $product->quantity,
             ];
 
@@ -57,5 +60,27 @@ class Cart extends Model
         }
 
         return ['cartProducts' => $cartDetailInfo, 'cartPrice' => $totalCartPrice];
+    }
+
+    /**
+     * Обновление количества товара в корзине по указанной записи в таблице корзины
+     *
+     * @param $productCartPosition - Позиция товара в коризне (столбец 'id')
+     * @param $productQuantity - Количество товара
+     *
+     * @return bool
+     */
+    public function productQuantityUpdate($productCartPosition, $productQuantity)
+    {
+        $cartItem = Cart::find($productCartPosition);
+
+        if ($cartItem) {
+            $cartItem->quantity = $productQuantity;
+            $cartItem->save();
+
+            return true;
+        } else {
+            return false;
+        }
     }
 }
