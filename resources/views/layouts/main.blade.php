@@ -62,7 +62,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                                     <a class="dropdown-item" href="{{ route('profile.edit') }}">Личный кабинет</a>
                                     <a class="dropdown-item" href="{{ route('cart') }}">Корзина</a>
-                                    <a class="dropdown-item" href="{{ route('order') }}">Оформление заказа</a>
+                                    <a class="dropdown-item" href="{{ route('order') }}">Заказы</a>
                                 </div>
                             </li>
 

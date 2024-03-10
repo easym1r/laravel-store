@@ -33,6 +33,13 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @if(empty($cartInfo['cartProducts']))
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    <h5>В вашей корзине пусто! Бегом к покупкам! ;)</h5>
+                                </td>
+                            </tr>
+                        @endif
                         @foreach($cartInfo['cartProducts'] as $product)
                             <tr>
                                 <td>
@@ -91,7 +98,7 @@
                         </tbody>
                     </table>
                     <div class="checkout_btn_inner float-right">
-                        <a class="btn_1" href="{{ route('products') }}">Продолжить покупки</a>
+                        <a class="btn_1" href="{{ route('products') }}">Вернуться к покупкам</a>
                         <a class="btn_1 checkout_btn_1" href="#">Оформить заказ</a>
                     </div>
                 </div>
@@ -100,8 +107,8 @@
     </section>
     <!--================End Cart Area =================-->
 
-    <!-- JavaScript-код для обработки нажатия кнопки "Обновить количество" и отправки AJAX-запроса -->
     <script> // TODO временно скрипт оформлен здесь! FIXME Нужно унести в отдельный JS-файл + добавить чтобы поле было от 1 до 10 !!!
+        // Обработка кнопки "Обновить количество"
         $('.update-quantity-btn').on('click', function () {
             const productCartIdPosition = $(this).data('product-position-in-cart');
             const productQuantity = $('#quantity-product-' + productCartIdPosition).val();
@@ -119,6 +126,30 @@
                 success: (data) => {
                     console.log(data);
                     window.location.href = '{{ route('cart') }}';
+                    // FIXME добавить обработку кастомной ошибки от контроллера корзины
+                },
+                error: (data) => {
+                    if (data.status === 401) {
+                        window.location.href = '{{ route('auth') }}';
+                    } else {
+                        console.log(data);
+                    }
+                }
+            });
+        });
+
+        // Обработка кнопки "Оформить заказ"
+        $('.checkout_btn_1').on('click', function () {
+            $.ajax({
+                url: '{{ route('orderMake') }}',
+                method: 'POST',
+                data: { },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: (data) => {
+                    console.log(data);
+                    window.location.href = '{{ route('order') }}';
                     // FIXME добавить обработку кастомной ошибки от контроллера корзины
                 },
                 error: (data) => {

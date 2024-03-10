@@ -36,7 +36,7 @@ class Cart extends Model
      *
      * @return array
      */
-    public static function getUserCart($userId)
+    public static function getUserCart($userId): array
     {
         $productsCart = self::where('user_id', $userId)->get();
 
@@ -70,7 +70,7 @@ class Cart extends Model
      *
      * @return bool
      */
-    public function productQuantityUpdate($productCartPosition, $productQuantity)
+    public function productQuantityUpdate($productCartPosition, $productQuantity): bool
     {
         $cartItem = Cart::find($productCartPosition);
 
@@ -78,6 +78,49 @@ class Cart extends Model
             $cartItem->quantity = $productQuantity;
             $cartItem->save();
 
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Получение данных по корзине пользователя необходимых для заполнения заказа
+     *
+     * @param $userId - Пользователь по чьей корзины будет получена информация
+     *
+     * @return array
+     */
+    public function getUserCartForMakeOrder($userId): array
+    {
+        $productsCart = self::where('user_id', $userId)->get();
+
+        $productsList = '';
+        $totalCartPrice = 0;
+
+        foreach ($productsCart as $product) {
+            $productInfo = Product::find($product->product_id);
+
+            $productsList .= ', ' . $productInfo->name . ' ('. $product->quantity . 'шт. по ' . $productInfo->price . 'Р)';
+
+            $totalCartPrice += $productInfo->price * $product->quantity;
+        }
+
+        $productsList = mb_substr($productsList, 2);
+
+        return ['productsList' => $productsList, 'cartPrice' => $totalCartPrice];
+    }
+
+    /**
+     * Очистка корзины для указанного пользователя
+     *
+     * @param $userId - Пользователь для которого будет произведена очистка корзины
+     *
+     * @return bool
+     */
+    public function clearCart($userId): bool
+    {
+        if (self::where('user_id', $userId)->delete()) {
             return true;
         } else {
             return false;

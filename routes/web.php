@@ -25,9 +25,12 @@ Route::get('/contact', [ContactController::class, 'showContactInfo'])->name('con
 Route::get('/products', [ProductController::class, 'showProductList'])->name('products');
 Route::get('/product/{product_id}', [ProductController::class, 'showProductDetailInfo']);
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart')->middleware(['auth']);
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('addToCart')->middleware(['auth']);
-Route::post('/cart/update', [CartController::class, 'cartUpdate'])->name('cartUpdate')->middleware(['auth']);
-Route::get('/order', [OrderController::class, 'showOrder'])->name('order');
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('addToCart');
+Route::post('/cart/update', [CartController::class, 'cartUpdate'])->name('cartUpdate');
+Route::get('/order', [OrderController::class, 'showOrder'])->name('order')->middleware(['auth']);
+Route::post('/order/make', [OrderController::class, 'orderMake'])->name('orderMake');
+Route::post('/order/delete', [OrderController::class, 'orderDelete'])->name('orderDelete');
+Route::post('/order/confirm', [OrderController::class, 'orderConfirm'])->name('orderConfirm');
 
 Route::get('/auth', function () {
    return view('auth');
